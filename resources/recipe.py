@@ -186,7 +186,7 @@ class RecipeListResource(Resource) :
 
         return {'result' : 'success'}
     
-    
+
     
     def get(self) :
         

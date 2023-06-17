@@ -1,5 +1,4 @@
 # 데이터베이스 연결 전용 파일
-
 import mysql.connector
 from config import Config
 
