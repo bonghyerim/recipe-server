@@ -235,16 +235,3 @@ class RecipeListResource(Resource) :
         return {'result' : 'success', 
                 'count' : len(result_list),
                 'items' : result_list}
-        
-
-
-
-
-
-
-
-
-
-
-
-
