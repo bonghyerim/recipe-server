@@ -1,3 +1,4 @@
+import datetime
 from flask_restful import Resource
 from flask import request
 import mysql.connector
@@ -9,7 +10,10 @@ from email_validator import validate_email, EmailNotValidError
 
 from utills import check_password, hash_password # 에러났을 때 처리해주는 거
 
+from flask_jwt_extended import create_access_token, create_refresh_token
+
 class UserRegisterResource (Resource):
+    
     def post(self) : 
 
         # {
@@ -75,6 +79,9 @@ class UserRegisterResource (Resource):
 
             connection.commit()
 
+            ## db에 데이터를 insert한 후에, 그 인서트된 행의 아이디를 가져오는 코드
+            user_id = cursor.lastrowid
+
             cursor.close()
             connection.close()
 
@@ -82,7 +89,11 @@ class UserRegisterResource (Resource):
             print(e)
             return{'result': 'fail', 'error' : str(e)}, 500
 
-        return {'result':'success'}
+
+        # create_access_token(user_id, expires_delta = datetime.timedelta())
+        access_token = create_access_token(user_id)
+
+        return {'result':'success','access_token' : access_token }
 
         
 
@@ -122,11 +133,13 @@ class UserLoginResource (Resource) :
         #    암호화된 비밀번호가 일치하는지 확인해야 함.
         print(result_list)
         check = check_password(data['password'], result_list[0]['password'])
-
+    
         if check == False :
             return {'result' : 'fail', "error":'비번 틀렸음'}, 400
             
         
         # 4. 클라이언트에게 데이터를 보내준다.
 
-        return
+        create_access_token(result_list[0]['id'])
+        access_token = create_access_token(result_list[0]['id'])
+        return {'result':'success','access_token':access_token}

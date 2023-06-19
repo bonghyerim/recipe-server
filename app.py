@@ -1,24 +1,28 @@
-# conda create -n lambda_app python=3.10
-# conda env remove -n lambda_app
-# lambda_app 가상환경에서 작업. 
-
 from flask import Flask
 from flask_restful import Api
-from resources.recipe import RecipeListResource, RecipeResource
 from config import Config
+from resources.recipe import RecipeListResource, RecipeResource
 from resources.user import UserLoginResource, UserRegisterResource
 
+from flask_jwt_extended import JWTManager
 
 app = Flask(__name__)
+
+
+# 환경변수 셋팅
+app.config.from_object(Config)
+
+# JWT 매니저 초기화
+jwt = JWTManager(app)
+
 api = Api(app)
-# app을 플라스크 api에 넣어서 사용하겠어. 
+
 
 # 경로(path)와 API동작코드(resource)를 연결한다. flask의 문법대로. flask에게 알려주기. 
 api.add_resource( RecipeListResource, '/recipes' )
 api.add_resource( RecipeResource, '/recipes/<int:recipe_id>' )
 api.add_resource( UserRegisterResource , '/user/register')
 api.add_resource( UserLoginResource, '/user/login')
+
 if __name__ == '__main__' : 
     app.run()
-
-    
