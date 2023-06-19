@@ -16,5 +16,4 @@ api.add_resource( RecipeResource, '/recipes/<int:recipe_id_abc>' )
 
 
 if __name__ == '__main__' : 
->>>>>>> f0ec4aba87431c4d3a20425dd4309e8857bea939
     app.run()
