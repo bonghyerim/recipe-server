@@ -7,7 +7,7 @@ from mysql_connection import get_connection
 
 from email_validator import validate_email, EmailNotValidError
 
-from utills import hash_password # 에러났을 때 처리해주는 거
+from utills import check_password, hash_password # 에러났을 때 처리해주는 거
 
 class UserRegisterResource (Resource):
     def post(self) : 
@@ -86,4 +86,47 @@ class UserRegisterResource (Resource):
 
         
 
-    
+class UserLoginResource (Resource) :
+    def post(self) : 
+
+        # 1. 클라이언트로부터 데이터를 받아온다.
+        data = request.get_json()
+
+
+        # 2. 이메일 주소로, DB에 SELECT 한다.
+        try : 
+            connection = get_connection()
+            query = ''' select * 
+                        from user 
+                        where email = %s;'''
+            
+            record = (data['email'],)
+
+            cursor = connection.cursor(dictionary=True)
+            cursor.execute(query, record)
+
+            result_list = cursor.fetchall()
+         
+            
+            cursor.close()
+            connection.close()
+        
+        except Error as e:
+            print(e)
+            return{'result' : "fail", "error": str(e)}, 500
+
+        if len(result_list) == 0 :
+                return{'result' : "fail", "error":'회원가입한 사람이 아님'}, 400
+        
+        # 3. 비밀번호가 일치하는지 확인한다.
+        #    암호화된 비밀번호가 일치하는지 확인해야 함.
+        print(result_list)
+        check = check_password(data['password'], result_list[0]['password'])
+
+        if check == False :
+            return {'result' : 'fail', "error":'비번 틀렸음'}, 400
+            
+        
+        # 4. 클라이언트에게 데이터를 보내준다.
+
+        return
