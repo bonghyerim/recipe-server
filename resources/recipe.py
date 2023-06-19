@@ -186,11 +186,7 @@ class RecipeListResource(Resource) :
 
         return {'result' : 'success'}
     
-<<<<<<< HEAD
     
-=======
-
->>>>>>> f0ec4aba87431c4d3a20425dd4309e8857bea939
     
     def get(self) :
         
@@ -238,9 +234,7 @@ class RecipeListResource(Resource) :
 
         return {'result' : 'success', 
                 'count' : len(result_list),
-<<<<<<< HEAD
                 'items' : result_list}
-
         
 
 
@@ -254,7 +248,3 @@ class RecipeListResource(Resource) :
 
 
 
-
-=======
-                'items' : result_list}
->>>>>>> f0ec4aba87431c4d3a20425dd4309e8857bea939
