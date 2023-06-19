@@ -10,3 +10,4 @@ def get_connection() :
         user = Config.DB_USER,
         password = Config.DB_PASSWORD
     )
+    return connection
