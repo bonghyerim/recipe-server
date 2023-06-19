@@ -3,3 +3,4 @@ class Config :
     DATABASE = 'recipe'
     DB_USER = 'recipe_db_user'
     DB_PASSWORD = '1234'
+    SALT = '0417@hello~'
