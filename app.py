@@ -1,10 +1,10 @@
 from flask import Flask
 from flask_restful import Api
+from flask_jwt_extended import JWTManager
 from config import Config
 from resources.recipe import MyRecipeResource, RecipeListResource, RecipePublishResource, RecipeResource
 from resources.user import UserLoginResource, UserLogoutResource, UserRegisterResource, jwt_blocklist
 
-from flask_jwt_extended import JWTManager
 
 
 app = Flask(__name__)
