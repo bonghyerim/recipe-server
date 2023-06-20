@@ -3,14 +3,26 @@ from flask_restful import Resource
 from flask import request
 import mysql.connector
 from mysql.connector import Error
-
 from mysql_connection import get_connection
-
 from email_validator import validate_email, EmailNotValidError
-
 from utills import check_password, hash_password # 에러났을 때 처리해주는 거
+from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt, jwt_required
 
-from flask_jwt_extended import create_access_token, create_refresh_token
+# 로그아웃
+## 로그아웃된 토큰을 저장할 set을 만든다.
+jwt_blocklist = set()
+
+class UserLogoutResource (Resource):
+    
+    @jwt_required()
+    def delete(self):
+
+        jti = get_jwt()['jti']
+        print(jti)
+        jwt_blocklist.add(jti)
+
+        return {'result':'success'}
+    
 
 class UserRegisterResource (Resource):
     
@@ -140,6 +152,6 @@ class UserLoginResource (Resource) :
         
         # 4. 클라이언트에게 데이터를 보내준다.
 
-        create_access_token(result_list[0]['id'])
         access_token = create_access_token(result_list[0]['id'])
-        return {'result':'success','access_token':access_token}
+        
+        return {'result' : 'success', 'access_token':access_token }
