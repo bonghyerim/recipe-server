@@ -52,7 +52,7 @@ class MyRecipeResource(Resource):
             i = i + 1
 
         return {'result':'success','count':len(result_list), 'items':result_list}
-        
+    
 
 
 class RecipePublishResource(Resource):
