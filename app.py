@@ -37,5 +37,3 @@ api.add_resource( MyRecipeResource ,'/recipes/me')
 if __name__ == '__main__' :
     app.run()
 
-
-
