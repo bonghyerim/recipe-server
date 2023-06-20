@@ -34,6 +34,7 @@ api.add_resource( UserLogoutResource , '/user/logout')
 api.add_resource( RecipePublishResource , '/recipes/<int:recipe_id>/publish') # flask의 문법
 api.add_resource( MyRecipeResource ,'/recipes/me')
 
+
 if __name__ == '__main__' :
     app.run()
 
